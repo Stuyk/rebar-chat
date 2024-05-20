@@ -4,6 +4,8 @@ This plugin allows you to speak to other players who are near your player using 
 
 Press `t` to chat, and type commands with `/` in front to execute commands.
 
+![GTA5_uYyU0yyPUj](https://github.com/Stuyk/rebar-chat/assets/21284100/c4ec07d8-8c0e-4949-b4ae-98a6003088a1)
+
 ## Features
 
 -   Press `t` to chat
