@@ -42,6 +42,9 @@ alt.on('playerConnect', async (player) => {
 
 ## Installation
 
+> [!WARNING]
+> Chat will not be turned on until you turn it on for the individual player. Ensure you implement a piece of the API. See above.
+
 From the main directory of your `Rebar` framework.
 
 ```
