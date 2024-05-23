@@ -9,7 +9,7 @@ export const ChatConfig = {
     inputLength: 128,
 
     // Maximum messages on screen at any given time
-    messagesPerPage: 6,
+    messagesPerPage: 8,
 
     // Chat Hotkey
     keybinds: {

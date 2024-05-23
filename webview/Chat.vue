@@ -10,11 +10,8 @@ type CommandInfo = { name: string; desc: string };
 
 const events = useEvents();
 const { messages, emit } = useMessenger();
-
-const pageIndex = ref(0);
 const input = ref('');
 const inputBox = ref<HTMLInputElement | null>(null);
-const lastChatElement = ref<HTMLInputElement | null>(null);
 const chatBox = ref<HTMLInputElement | null>(null);
 const timestamp = ref(true);
 const focused = ref(false);
@@ -30,7 +27,7 @@ function setCommands(data: CommandInfo[]) {
 
 const chatMessages = computed(() => {
     if (messages.value.length < ChatConfig.messagesPerPage) {
-        return messages.value.reverse();
+        return [...messages.value].reverse();
     }
 
     if (!focused.value) {
@@ -77,9 +74,15 @@ function onInputChange(inputValue: string) {
         return;
     }
 
+    const inputSplit = inputValue.split(' ');
+    const cmd = inputSplit[0];
+    if (!cmd) {
+        return;
+    }
+
     let closestCommands = [];
     for (let command of commands.value) {
-        if (!command.name.includes(inputValue.replace('/', ''))) {
+        if (!command.name.includes(cmd.replace('/', ''))) {
             continue;
         }
 
@@ -127,7 +130,7 @@ watch(input, onInputChange);
                 class="min-w-[448px] max-w-[448px] rounded-lg border-2 border-neutral-50 border-opacity-20 bg-neutral-950 bg-opacity-80 px-4 py-4 font-bold tracking-wider text-white outline-none placeholder:text-neutral-500 focus:border-opacity-50"
                 :class="focused ? ['opacity-100'] : ['opacity-0']"
             />
-            <template v-if="closestMatchingCommands.length >= 1">
+            <template v-if="closestMatchingCommands.length >= 1 && focused">
                 <span class="select-none rounded-md bg-neutral-950 bg-opacity-60 px-2 py-2 font-medium text-white">
                     Suggestions
                 </span>

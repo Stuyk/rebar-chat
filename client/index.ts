@@ -31,6 +31,10 @@ const KeyBinds = {
             return;
         }
 
+        if (alt.isConsoleOpen()) {
+            return;
+        }
+
         chatFocused = true;
         webview.focus();
         alt.toggleGameControls(false);
