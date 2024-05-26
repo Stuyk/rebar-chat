@@ -5,15 +5,14 @@ import { ChatEvents } from '../shared/events.js';
 
 const Rebar = useRebarClient();
 const webview = Rebar.webview.useWebview();
-
-let chatFocused = false;
+const messenger = Rebar.messenger.useMessenger();
 
 function handleClose() {
-    if (!chatFocused) {
+    if (!messenger.isChatFocused()) {
         return;
     }
 
-    chatFocused = false;
+    messenger.unfocusChat();
     webview.unfocus();
     alt.toggleGameControls(true);
     webview.emit(ChatEvents.toWebview.unfocus);
@@ -27,7 +26,7 @@ const KeyBinds = {
         handleClose();
     },
     [ChatConfig.keybinds.open]: () => {
-        if (chatFocused) {
+        if (messenger.isChatFocused()) {
             return;
         }
 
@@ -35,7 +34,7 @@ const KeyBinds = {
             return;
         }
 
-        chatFocused = true;
+        messenger.focusChat();
         webview.focus();
         alt.toggleGameControls(false);
         webview.emit(ChatEvents.toWebview.focus);
