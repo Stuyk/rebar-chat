@@ -107,7 +107,7 @@ watch(input, onInputChange);
 </script>
 
 <template>
-    <div class="fixed left-6 top-6 flex flex-col gap-6">
+    <div class="fixed left-6 top-6 flex flex-col gap-6" :class="focused ? [] : ['pointer-events-none']">
         <div
             class="flip-left flex max-h-[448px] min-h-[448px] min-w-[448px] max-w-[448px] flex-col gap-4 overflow-y-auto pl-3"
             ref="chatBox"
