@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
+import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import { useMessenger } from '../../../../webview/composables/useMessenger';
 import { ChatConfig } from '../shared/config';
 import ChatMessage from './components/ChatMessage.vue';
