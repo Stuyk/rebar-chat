@@ -140,12 +140,6 @@ onMounted(() => {
     events.on(ChatEvents.toWebview.send, send);
     events.on(ChatEvents.toWebview.commands, setCommands);
     events.emitServer(ChatEvents.toWebview.commands);
-
-    inputBox.value?.addEventListener('keydown', onKeydown);
-});
-
-onUnmounted(() => {
-    inputBox.value?.removeEventListener('keydown', onKeydown);
 });
 
 watch(input, onInputChange);
@@ -170,6 +164,7 @@ watch(input, onInputChange);
                 :max="ChatConfig.inputLength"
                 v-model="input"
                 ref="inputBox"
+                @keydown="onKeydown"
                 placeholder="Write text or /command"
                 type="text"
                 class="min-w-[448px] max-w-[448px] rounded-lg border-2 border-neutral-50 border-opacity-20 bg-neutral-950 bg-opacity-80 px-4 py-4 font-bold tracking-wider text-white outline-none placeholder:text-neutral-500 focus:border-opacity-50"
