@@ -20,6 +20,10 @@ const closestMatchingCommands = ref<CommandInfo[]>([
     // { name: 'test', desc: 'hi' },
     // { name: 'test', desc: 'hi' },
 ]);
+const selectedCommandIndex = ref(-1);
+const commandHistory = ref<string[]>([]);
+const commandHistoryIndex = ref(-1);
+
 
 function setCommands(data: CommandInfo[]) {
     commands.value = data;
@@ -65,12 +69,15 @@ function send() {
     }
 
     emit(input.value);
+    commandHistory.value.unshift(input.value);
     input.value = '';
+    commandHistoryIndex.value = -1;
 }
 
 function onInputChange(inputValue: string) {
     if (inputValue.charAt(0) !== '/' || inputValue.length <= 0) {
         closestMatchingCommands.value = [];
+        selectedCommandIndex.value = -1;
         return;
     }
 
@@ -93,6 +100,38 @@ function onInputChange(inputValue: string) {
     }
 
     closestMatchingCommands.value = closestCommands;
+    selectedCommandIndex.value = -1;
+}
+
+function onKeydown(event: KeyboardEvent) {
+    if (closestMatchingCommands.value.length === 0 && commandHistory.value.length === 0) {
+        return;
+    }
+
+    if (event.key === 'Tab') {
+        event.preventDefault();
+        if (closestMatchingCommands.value.length > 0) {
+            selectedCommandIndex.value = (selectedCommandIndex.value + 1) % closestMatchingCommands.value.length;
+            input.value = `/${closestMatchingCommands.value[selectedCommandIndex.value].name}`;
+        }
+    } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (commandHistory.value.length > 0) {
+            if (commandHistoryIndex.value < commandHistory.value.length - 1) {
+                commandHistoryIndex.value += 1;
+            }
+            input.value = commandHistory.value[commandHistoryIndex.value];
+        }
+    } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (commandHistoryIndex.value > 0) {
+            commandHistoryIndex.value -= 1;
+            input.value = commandHistory.value[commandHistoryIndex.value];
+        } else {
+            commandHistoryIndex.value = -1;
+            input.value = '';
+        }
+    }
 }
 
 onMounted(() => {
@@ -125,6 +164,7 @@ watch(input, onInputChange);
                 :max="ChatConfig.inputLength"
                 v-model="input"
                 ref="inputBox"
+                @keydown="onKeydown"
                 placeholder="Write text or /command"
                 type="text"
                 class="min-w-[448px] max-w-[448px] rounded-lg border-2 border-neutral-50 border-opacity-20 bg-neutral-950 bg-opacity-80 px-4 py-4 font-bold tracking-wider text-white outline-none placeholder:text-neutral-500 focus:border-opacity-50"
