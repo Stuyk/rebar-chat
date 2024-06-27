@@ -83,7 +83,7 @@ const content = computed(() => {
 </script>
 
 <template>
-    <div class="arial text-md text-shadow text- font-bold tracking-wider" :class="classes">
+    <div class="arial font-normal text-sm" style="text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3)" :class="classes">
         <span v-html="colorify(content)"></span>
     </div>
 </template>
