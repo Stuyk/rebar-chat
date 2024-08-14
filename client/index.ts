@@ -43,6 +43,10 @@ const KeyBinds = {
 };
 
 alt.on('keyup', (key: number) => {
+    if (!webview.isOverlayOpen('Chat')) {
+        return;
+    }
+
     if (webview.isAnyPageOpen()) {
         return;
     }

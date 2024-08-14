@@ -46,4 +46,5 @@ declare global {
 
 Rebar.useApi().register(API_NAME, useApi());
 
+alt.on('rebar:playerCharacterBound', (player) => Rebar.player.useWebview(player).show('Chat', 'overlay'));
 alt.onClient(ChatEvents.toServer.isChatting, handleIsChatting);
