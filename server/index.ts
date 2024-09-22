@@ -28,5 +28,5 @@ async function getCommands(player: alt.Player) {
     Rebar.player.useWebview(player).emit(ChatEvents.toWebview.commands, commands);
 }
 
+alt.on('rebar:playerSendMessage', handlePlayerMessage);
 alt.onClient(ChatEvents.toWebview.commands, getCommands);
-messenger.message.on(handlePlayerMessage);
